@@ -1,4 +1,5 @@
 const { Schema, Types } = require('mongoose');
+const getCurrentDateFormatted = require('../utils/helper');
 const reactionSchema = new Schema({
   reactionId: {
     type: Schema.Types.ObjectId,
@@ -16,8 +17,12 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: createdAtVal => dateFormat(createdAtVal)
+    get: function (value) {
+      const date = new Date(value);
+      return getCurrentDateFormatted(date);
+    }
   }
+  
 });
 
 module.exports = reactionSchema;

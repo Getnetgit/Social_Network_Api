@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reaction')
+const reactionSchema = require('./Reaction');
+const getCurrentDateFormatted = require('../utils/helper');
 const thoughtSchema = new Schema({
   thoughtText: {
     type: String,
@@ -9,8 +10,11 @@ const thoughtSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-    get: createdAtVal => dateFormat(createdAtVal)
+    default: Date.now(),
+    get: function (value) {
+      const date = new Date(value);
+      return getCurrentDateFormatted(date);
+    }
   },
   username: {
     type: String,
@@ -24,5 +28,6 @@ thoughtSchema.virtual('reactionCount').get(function() {
 });
 
 const Thought = model('Thought', thoughtSchema);
-
+const mewmdl=new Thought()
+console.log(mewmdl.createdAt)
 module.exports = Thought;
